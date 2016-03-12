@@ -88,8 +88,6 @@ def game():
     stage.disable_all_walls()
     gameSprites.append(start_ground)
     
-    global timer
-    timer = 0
     global points
     points = 0
     global lives
@@ -113,61 +111,34 @@ def game():
             NME = codesters.Sprite(enemy_img, rand_x, -400)
             if enemy_img == "meteor1":
                 NME.turn_left(90)
-            NME.set_size(0.3)
-            NME.set_y_speed(2)
+            NME.set_size(0.5)
+            NME.set_y_speed(3)
         if rand_x == -50 or rand_x == 150:
             NME = codesters.Sprite(enemy_img, rand_x, 400)
             if enemy_img == "meteor1":
                 NME.turn_right(90)
             else:
                 NME.turn_left(180)
-            NME.set_size(0.3)
-            NME.set_y_speed(-2)
+            NME.set_size(0.5)
+            NME.set_y_speed(-3)
         gameSprites.append(NME)
     
     def interval():
         make_NME()
-    stage.event_interval(interval, 1)
+    stage.event_interval(interval, 0.25)
     
     def up_key():
-        if timer <= 0:
-            ufo.move_up(10)
-            stage.wait(1)
-        if timer > 0:
-            ufo.move_up(30)
-            stage.wait(1)
+        ufo.move_up(10)
     stage.event_key("up", up_key)
     def down_key():
-        if timer <= 0:
-            ufo.move_down(10)
-            stage.wait(1)
-        if timer > 0:
-            ufo.move_down(30)
-            stage.wait(1)
+        ufo.move_down(10)
     stage.event_key("down", down_key)
     def left_key():
-        if timer <= 0:
-            ufo.move_left(10)
-            stage.wait(1)
-        if timer > 0:
-            ufo.move_left(30)
-            stage.wait(1)
+        ufo.move_left(10)
     stage.event_key("left", left_key)
     def right_key():
-        if timer <= 0:
-            ufo.move_right(10)
-            stage.wait(1)
-        if timer > 0:
-            ufo.move_right(30)
-            stage.wait(1)
+        ufo.move_right(10)
     stage.event_key("right", right_key)
-    
-    for counter in range(3):
-        rand_x = random.randint(-150, 250)
-        rand_y = random.randint(-250, 250)
-        powerup = codesters.Sprite("steelcan", rand_x, rand_y)
-        powerup.set_size(0.2)
-        gameSprites.append(powerup)
     
     for counter in range(5):
         rand_x = random.randint(-150, 250)
@@ -179,6 +150,8 @@ def game():
         gameSprites.append(point)
     
     result_text = codesters.Text(" ")
+
+
     
     def collision(sprite, hit_sprite):
         image = hit_sprite.get_image_name() 
@@ -196,6 +169,7 @@ def game():
             timer = 5
             stage.remove_sprite(hit_sprite)
         if image == "alien1" or image == "alien2":
+            global points
             points += 1
             points_display.update(points)
             stage.remove_sprite(hit_sprite)
