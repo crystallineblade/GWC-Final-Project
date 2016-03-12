@@ -179,12 +179,6 @@ def game():
         gameSprites.append(point)
     
     result_text = codesters.Text(" ")
-
-    def interval():
-        global timer
-        if timer > 0:
-            timer -= 1
-    stage.event_interval(interval, 1)
     
     def collision(sprite, hit_sprite):
         image = hit_sprite.get_image_name() 
