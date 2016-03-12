@@ -103,29 +103,37 @@ def game():
     goal.set_size(5)
     gameSprites.append(goal)
     
-    def make_NME():
+    def make_NME1():
         enemy_img = random.choice(["rocket", "meteor1"])
-        road_list = [-150, -50, 50, 150]
-        rand_x = random.choice(road_list)
-        if rand_x == -150 or rand_x == 50:
-            NME = codesters.Sprite(enemy_img, rand_x, -400)
-            if enemy_img == "meteor1":
-                NME.turn_left(90)
-            NME.set_size(0.5)
-            NME.set_y_speed(3)
-        if rand_x == -50 or rand_x == 150:
-            NME = codesters.Sprite(enemy_img, rand_x, 400)
-            if enemy_img == "meteor1":
-                NME.turn_right(90)
-            else:
-                NME.turn_left(180)
-            NME.set_size(0.5)
-            NME.set_y_speed(-3)
+        NME = codesters.Sprite(enemy_img, -150, -400)
+        if enemy_img == "meteor1":
+            NME.turn_left(90)
+        NME.set_size(0.5)
+        NME.set_y_speed(3)
+        gameSprites.append(NME)
+    def make_NME3():
+        enemy_img = random.choice(["rocket", "meteor1"])
+        NME = codesters.Sprite(enemy_img, -50, -400)
+        if enemy_img == "meteor1":
+            NME.turn_left(90)
+        NME.set_size(0.5)
+        NME.set_y_speed(3)
+        gameSprites.append(NME)
+    def make_NME2():
+        enemy_img = random.choice(["rocket", "meteor1"])
+        NME = codesters.Sprite(enemy_img, 50, 400)
+        if enemy_img == "meteor1":
+            NME.turn_right(90)
+        else:
+            NME.turn_left(180)
+        NME.set_size(0.5)
+        NME.set_y_speed(-3)
         gameSprites.append(NME)
     
     def interval():
-        make_NME()
-    stage.event_interval(interval, 0.25)
+        make_NME1()
+        make_NME3()
+    stage.event_interval(interval, 1)
     
     def up_key():
         ufo.move_up(10)
@@ -151,23 +159,20 @@ def game():
     
     result_text = codesters.Text(" ")
 
-
-    
     def collision(sprite, hit_sprite):
         image = hit_sprite.get_image_name() 
         if image == "meteor2":
             result_text.set_text("YOU WON!")
             result_text.set_color("green")
         if image == "rocket" or image == "meteor1":
+            global lives
             lives -= 1
+            stage.remove_sprite(hit_sprite)
             lives_display.update(lives)
             if lives == 0:
                 result_text.set_text("YOU LOST!")
                 result_text.set_color("red")
                 sprite.go_to(0, -240)
-        if image == "steelcan":
-            timer = 5
-            stage.remove_sprite(hit_sprite)
         if image == "alien1" or image == "alien2":
             global points
             points += 1
