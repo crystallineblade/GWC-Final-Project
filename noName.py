@@ -160,12 +160,15 @@ def game():
         ufo.move_right(10)
     stage.event_key("right", right_key)
     
-    for counter in range(5):
-        rand_x = random.randint(-150, 250)
+    
+    for counter in range(3):    
+        rand_x = random.randint(-100, -50)
         rand_y = random.randint(-250, 250)
+        rand_add = random.randint(100, 150)
         img_list = ["alien1", "alien2"]
         randompoint = random.choice(img_list)
-        point = codesters.Sprite(randompoint, rand_x, rand_y)
+        x = rand_x + (rand_add * counter)
+        point = codesters.Sprite(randompoint, x, rand_y)
         point.set_size(0.3)
         gameSprites.append(point)
     
