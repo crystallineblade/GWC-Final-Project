@@ -113,7 +113,7 @@ def game():
         gameSprites.append(NME)
     def make_NME3():
         enemy_img = random.choice(["rocket", "meteor1"])
-        NME = codesters.Sprite(enemy_img, -50, -400)
+        NME = codesters.Sprite(enemy_img, 50, -400)
         if enemy_img == "meteor1":
             NME.turn_left(90)
         NME.set_size(0.5)
@@ -121,7 +121,17 @@ def game():
         gameSprites.append(NME)
     def make_NME2():
         enemy_img = random.choice(["rocket", "meteor1"])
-        NME = codesters.Sprite(enemy_img, 50, 400)
+        NME = codesters.Sprite(enemy_img, -50, 400)
+        if enemy_img == "meteor1":
+            NME.turn_right(90)
+        else:
+            NME.turn_left(180)
+        NME.set_size(0.5)
+        NME.set_y_speed(-3)
+        gameSprites.append(NME)
+    def make_NME4():
+        enemy_img = random.choice(["rocket", "meteor1"])
+        NME = codesters.Sprite(enemy_img, 150, 400)
         if enemy_img == "meteor1":
             NME.turn_right(90)
         else:
@@ -132,7 +142,9 @@ def game():
     
     def interval():
         make_NME1()
+        make_NME2()
         make_NME3()
+        make_NME4()
     stage.event_interval(interval, 1)
     
     def up_key():
@@ -181,6 +193,3 @@ def game():
     ufo.event_collision(collision)
 
 start()
-
-
-
