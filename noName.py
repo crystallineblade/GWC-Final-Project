@@ -99,16 +99,6 @@ def game():
     ufo.set_size(0.3)
     gameSprites.append(ufo)
     
-    rotate = 0
-    y = 150
-    for counter in range(4):
-        goal = codesters.Sprite("meteor2", 350, y)
-        goal.set_size(3)
-        gameSprites.append(goal)
-        goal.turn_right(rotate)
-        rotate += 45
-        y -= 100
-        
     def make_NME1():
         enemy_img = random.choice(["rocket", "meteor1"])
         NME = codesters.Sprite(enemy_img, -150, -400)
@@ -156,7 +146,14 @@ def game():
         make_NME3()
         make_NME4()
     stage.event_interval(interval, 1)
-    
+    y = 150
+    for counter in range(4):
+        goal = codesters.Sprite("meteor2", 350, y)
+        goal.set_size(3)
+        gameSprites.append(goal)
+        y -= 100
+        
+
     def up_key():
         ufo.move_up(10)
     stage.event_key("up", up_key)
@@ -181,10 +178,7 @@ def game():
         point.set_size(0.3)
         gameSprites.append(point)
     
-    
-    
     result_text = codesters.Text(" ")
-
     def collision(sprite, hit_sprite):
         image = hit_sprite.get_image_name() 
         if image == "meteor2":
@@ -195,10 +189,16 @@ def game():
             lives -= 1
             stage.remove_sprite(hit_sprite)
             lives_display.update(lives)
+            result_text.set_text(str(lives) + " lives left")
+            result_text.set_color("white")
+            stage.wait(2)
+            result_text.set_text(" ")
             if lives == 0:
                 result_text.set_text("YOU LOST!")
                 result_text.set_color("red")
                 sprite.go_to(0, -240)
+            else:
+                sprite.go_to(-230, 0)
         if image == "alien1" or image == "alien2":
             global points
             points += 1
@@ -207,3 +207,6 @@ def game():
     ufo.event_collision(collision)
 
 start()
+
+
+
