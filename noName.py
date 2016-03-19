@@ -99,17 +99,24 @@ def game():
     ufo.set_size(0.3)
     gameSprites.append(ufo)
     
-    goal = codesters.Sprite("meteor2", 425, 0)
-    goal.set_size(5)
-    gameSprites.append(goal)
-    
+    rotate = 0
+    y = 150
+    for counter in range(4):
+        goal = codesters.Sprite("meteor2", 350, y)
+        goal.set_size(3)
+        gameSprites.append(goal)
+        goal.turn_right(rotate)
+        rotate += 45
+        y -= 100
+        
     def make_NME1():
         enemy_img = random.choice(["rocket", "meteor1"])
         NME = codesters.Sprite(enemy_img, -150, -400)
         if enemy_img == "meteor1":
             NME.turn_left(90)
         NME.set_size(0.5)
-        NME.set_y_speed(3)
+        rand_speed = random.randint(2,3)
+        NME.set_y_speed(rand_speed)
         gameSprites.append(NME)
     def make_NME3():
         enemy_img = random.choice(["rocket", "meteor1"])
@@ -117,7 +124,8 @@ def game():
         if enemy_img == "meteor1":
             NME.turn_left(90)
         NME.set_size(0.5)
-        NME.set_y_speed(3)
+        rand_speed = random.randint(2,3)
+        NME.set_y_speed(rand_speed)
         gameSprites.append(NME)
     def make_NME2():
         enemy_img = random.choice(["rocket", "meteor1"])
@@ -127,7 +135,8 @@ def game():
         else:
             NME.turn_left(180)
         NME.set_size(0.5)
-        NME.set_y_speed(-3)
+        rand_speed = random.randint(-3,-2)
+        NME.set_y_speed(rand_speed)
         gameSprites.append(NME)
     def make_NME4():
         enemy_img = random.choice(["rocket", "meteor1"])
@@ -137,7 +146,8 @@ def game():
         else:
             NME.turn_left(180)
         NME.set_size(0.5)
-        NME.set_y_speed(-3)
+        rand_speed = random.randint(-3,-2)
+        NME.set_y_speed(rand_speed)
         gameSprites.append(NME)
     
     def interval():
@@ -160,7 +170,6 @@ def game():
         ufo.move_right(10)
     stage.event_key("right", right_key)
     
-    
     for counter in range(3):    
         rand_x = random.randint(-100, -50)
         rand_y = random.randint(-250, 250)
@@ -171,6 +180,8 @@ def game():
         point = codesters.Sprite(randompoint, x, rand_y)
         point.set_size(0.3)
         gameSprites.append(point)
+    
+    
     
     result_text = codesters.Text(" ")
 
