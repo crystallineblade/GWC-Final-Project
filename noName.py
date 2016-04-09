@@ -83,7 +83,8 @@ def instructions():
     stage.event_click(click)
 
 def game():
-    stop = False
+    global stop
+    stop = 0
     gameSprites = []
     stage.set_background("scrollingspace")
     
@@ -102,10 +103,43 @@ def game():
     ufo.set_size(0.3)
     gameSprites.append(ufo)
     
+    result_text = codesters.Text(" ")
+    def collision(sprite, hit_sprite):
+        image = hit_sprite.get_image_name() 
+        if image == "meteor2":
+            result_text.set_text("YOU WON!")
+            result_text.set_color("green")
+            stop = 1
+            print ("STOP IS TRUE WIN")
+            for sprite in gameSprites:
+                stage.remove_sprite(sprite)
+            win()
+        if image == "rocket" or image == "meteor1":
+            global lives
+            lives -= 1
+            stage.remove_sprite(hit_sprite)
+            lives_display.update(lives)
+            if lives == 0:
+                result_text.set_text("YOU LOST!")
+                result_text.set_color("red")
+                sprite.go_to(0, -240)
+                stop = 1
+                print ("STOP IS TRUE LOSE")
+                for sprite in gameSprites:
+                    stage.remove_sprite(sprite)
+                lose()
+            else:
+                sprite.go_to(-230, 0)
+                stage.wait(1)
+        if image == "alien1" or image == "alien2":
+            global points
+            points += 1
+            points_display.update(points)
+            stage.remove_sprite(hit_sprite)
+    ufo.event_collision(collision)
+    
     def make_NME1():
-        if stop == True:
-            return
-        else:
+        if stop == 0:
             enemy_img = random.choice(["rocket", "meteor1"])
             NME = codesters.Sprite(enemy_img, -150, -400)
             NME.set_size(0.5)
@@ -114,10 +148,10 @@ def game():
             rand_speed = random.randint(2,3)
             NME.set_y_speed(rand_speed)
             gameSprites.append(NME)
-    def make_NME3():
-        if stop == True:
+        else:
             return
-        else:        
+    def make_NME3():
+        if stop == 0:
             enemy_img = random.choice(["rocket", "meteor1"])
             NME = codesters.Sprite(enemy_img, 50, -400)
             NME.set_size(0.5)
@@ -126,10 +160,10 @@ def game():
             rand_speed = random.randint(2,3)
             NME.set_y_speed(rand_speed)
             gameSprites.append(NME)
-    def make_NME2():
-        if stop == True:
+        else:        
             return
-        else:
+    def make_NME2():
+        if stop == 0:
             enemy_img = random.choice(["rocket", "meteor1"])
             NME = codesters.Sprite(enemy_img, -50, 400)
             NME.set_size(0.5)
@@ -140,10 +174,10 @@ def game():
             rand_speed = random.randint(-3,-2)
             NME.set_y_speed(rand_speed)
             gameSprites.append(NME)
-    def make_NME4():
-        if stop == True:
+        else:
             return
-        else:        
+    def make_NME4():
+        if stop == 0:
             enemy_img = random.choice(["rocket", "meteor1"])
             NME = codesters.Sprite(enemy_img, 150, 400)
             NME.set_size(0.5)
@@ -154,13 +188,15 @@ def game():
             rand_speed = random.randint(-3,-2)
             NME.set_y_speed(rand_speed)
             gameSprites.append(NME)
+        else:        
+            return
 
     def interval():
-        if stop == True:
-            return
-        else:
+        if stop == 0:
             make_NME2()
             make_NME4()
+        else:
+            return
     stage.event_interval(interval, 3)
 
     y = 150
@@ -171,36 +207,39 @@ def game():
         y -= 100
 
     def rand():
-        my_var = random.randint(1, 4)
-        if my_var == 1:
-            make_NME1()
-        if my_var == 2:
-            make_NME3()
-    def up_key():
-        if stop == True:
-            return
+        if stop == 0:
+            my_var = random.randint(1, 4)
+            if my_var == 1:
+                make_NME1()
+            if my_var == 2:
+                make_NME3()
         else:
+            return
+    def up_key():
+        if stop == 0:
             ufo.move_up(10)
+        else:
+            return
     stage.event_key("up", up_key)
     def down_key():
-        if stop == True:
-            return
-        else:
+        if stop == 0:
             ufo.move_down(10)
+        else:
+            return
     stage.event_key("down", down_key)
     def left_key():
-        if stop == True:
-            return
-        else:
+        if stop == 0:
             ufo.move_left(10)
             rand()
+        else:
+            return
     stage.event_key("left", left_key)
     def right_key():
-        if stop == True:
-            return
-        else:
+        if stop == 0:
             ufo.move_right(10)
             rand()
+        else:
+            return
     stage.event_key("right", right_key)
     
     for counter in range(3):    
@@ -214,31 +253,12 @@ def game():
         point.set_size(0.3)
         gameSprites.append(point)
 
-    result_text = codesters.Text(" ")
-    def collision(sprite, hit_sprite):
-        image = hit_sprite.get_image_name() 
-        if image == "meteor2":
-            result_text.set_text("YOU WON!")
-            result_text.set_color("green")
-        if image == "rocket" or image == "meteor1":
-            global lives
-            lives -= 1
-            stage.remove_sprite(hit_sprite)
-            lives_display.update(lives)
-            if lives == 0:
-                result_text.set_text("YOU LOST!")
-                result_text.set_color("red")
-                sprite.go_to(0, -240)
-                stop = True
-            else:
-                sprite.go_to(-230, 0)
-        if image == "alien1" or image == "alien2":
-            global points
-            points += 1
-            points_display.update(points)
-            stage.remove_sprite(hit_sprite)
-    ufo.event_collision(collision)
-    
+def win():
+    stage.set_background("jupiter")
+
+def lose():
+    stage.set_background("jupiter")
+
 start()
 
 
