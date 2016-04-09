@@ -104,6 +104,7 @@ def game():
     gameSprites.append(ufo)
     
     result_text = codesters.Text(" ")
+    gameSprites.append(result_text)
     def collision(sprite, hit_sprite):
         image = hit_sprite.get_image_name() 
         if image == "meteor2":
@@ -113,6 +114,7 @@ def game():
             print ("STOP IS TRUE WIN")
             for sprite in gameSprites:
                 stage.remove_sprite(sprite)
+            stage.wait(2)
             win()
         if image == "rocket" or image == "meteor1":
             global lives
@@ -255,6 +257,50 @@ def game():
 
 def win():
     stage.set_background("jupiter")
+    wSprites = []
+    
+    wtext = codesters.Text("YOU WON!", 0, 200, "green")
+    wSprites.append(wtext)
+    wtext.set_size(1.5)
+    
+    swtext = codesters.Text("Congratulations! You have reached planet X-9001! You are a national hero!", 0, 150, "white")
+    wSprites.append(swtext)
+    
+    trophy = codesters.Sprite("trophy", 0, 0)
+    wSprites.append(trophy)
+    trophy.turn_right(360)
+    
+    swtext2 = codesters.Text("Here is your reward!", 0, -100, "white")
+    swtext3 = codesters.Text("Would you like to return to menu, or play again?", 0, -150, "white")
+    wSprites.append(swtext2)
+    wSprites.append(swtext3)
+    
+    start_game_b = codesters.Rectangle(-100, -200, 150, 40, "gray")
+    back_b = codesters.Rectangle(100, -200, 150, 40, "gray")
+    start_game_b.set_opacity(0.25)
+    back_b.set_opacity(0.25)
+    wSprites.append(start_game_b)
+    wSprites.append(back_b)
+
+    start_game = codesters.Text("Play Again", -100, -200, "silver")
+    back = codesters.Text("Back to Menu", 100, -200, "silver")
+    wSprites.append(start_game)
+    wSprites.append(back)
+
+    def click():
+        x = stage.click_x()
+        y = stage.click_y()
+        if x <= -25 and x >= -175 and y <= -180 and y >= -220:
+            for sprite in wSprites:
+                stage.remove_sprite(sprite)
+            game()
+        if x <= 175 and x >= 25 and y <= -180 and y >= -220:
+            for sprite in wSprites:
+                stage.remove_sprite(sprite)
+            start()
+    stage.event_click(click)
+    
+
 
 def lose():
     stage.set_background("jupiter")
