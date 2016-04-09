@@ -304,6 +304,42 @@ def win():
 
 def lose():
     stage.set_background("jupiter")
+    lSprites = []
+    
+    ltext = codesters.Text("YOU LOST", 0, 200, "red")
+    lSprites.append(wtext)
+    ltext.set_size(1.5)
+    
+    sltext = codesters.Text("You have crashed and now your planet cannot be saved!", 0, 100, "white")
+    lSprites.append(swtext)
+    sltext3 = codesters.Text("Would you like to return to menu, or try again?", 0, -120, "white")
+    lSprites.append(swtext2)
+    lSprites.append(swtext3)
+    
+    start_game_b = codesters.Rectangle(-100, -175, 150, 40, "gray")
+    back_b = codesters.Rectangle(100, -175, 150, 40, "gray")
+    start_game_b.set_opacity(0.25)
+    back_b.set_opacity(0.25)
+    lSprites.append(start_game_b)
+    lSprites.append(back_b)
+
+    start_game = codesters.Text("Play Again", -100, -175, "silver")
+    back = codesters.Text("Back to Menu", 100, -175, "silver")
+    lSprites.append(start_game)
+    lSprites.append(back)
+
+    def click():
+        x = stage.click_x()
+        y = stage.click_y()
+        if x <= -25 and x >= -175 and y <= -155 and y >= -195:
+            for sprite in lSprites:
+                stage.remove_sprite(sprite)
+            game()
+        if x <= 175 and x >= 25 and y <= -155 and y >= -195:
+            for sprite in lSprites:
+                stage.remove_sprite(sprite)
+            start()
+    stage.event_click(click)
 
 start()
 
